@@ -1235,6 +1235,14 @@ typedef enum {
   }
 }
 
+- (CGRect)screenSizeOrientationIndependent {
+    CGRect bounds = [[UIScreen mainScreen] bounds];
+    
+    CGSize screenSize = [UIScreen mainScreen].bounds.size;
+    bounds.size = CGSizeMake(MIN(screenSize.width, screenSize.height), MAX(screenSize.width, screenSize.height));
+    return bounds;
+}
+
 - (void)performOrientationChange:(UIInterfaceOrientation)deviceOrientation {
   if (!self.forceRotate) {
     return;
@@ -1243,12 +1251,16 @@ typedef enum {
     [self.delegate videoPlayer:self willChangeOrientationTo:deviceOrientation];
   }
   
-  CGFloat degrees = [self degreesForOrientation:deviceOrientation];
+  CGFloat degrees = [self degreesForOrientation:deviceOrientation] - [self degreesForOrientation:[[UIApplication sharedApplication] statusBarOrientation]];
+    
   __weak __typeof__(self) weakSelf = self;
   UIInterfaceOrientation lastOrientation = self.visibleInterfaceOrientation;
   self.visibleInterfaceOrientation = deviceOrientation;
   [UIView animateWithDuration:0.3f animations:^{
-    CGRect bounds = [[UIScreen mainScreen] bounds];
+    // bounds is orientation-dependent in iOS8, and that will cause problem..
+    // CGRect bounds = [[UIScreen mainScreen] bounds];
+    CGRect bounds = [self screenSizeOrientationIndependent];
+      
     CGRect parentBounds;
     CGRect viewBoutnds;
     if (UIInterfaceOrientationIsLandscape(deviceOrientation)) {
@@ -1282,7 +1294,8 @@ typedef enum {
     }
   }];
   
-  [[UIApplication sharedApplication] setStatusBarOrientation:self.visibleInterfaceOrientation animated:YES];
+    // this will mess the orientation of the app.
+//  [[UIApplication sharedApplication] setStatusBarOrientation:self.visibleInterfaceOrientation animated:YES];
   [self updateCaptionView:self.view.captionBottomView caption:self.captionBottom playerView:self.view];
   [self updateCaptionView:self.view.captionTopView caption:self.captionTop playerView:self.view];
   self.view.fullscreenButton.selected = self.isFullScreen = UIInterfaceOrientationIsLandscape(deviceOrientation);
