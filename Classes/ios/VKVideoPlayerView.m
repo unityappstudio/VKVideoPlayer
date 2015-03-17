@@ -95,13 +95,10 @@
   
   self.fullscreenButton.hidden = NO;  
   
-  for (UIButton* button in @[
-    self.topPortraitCloseButton
-  ]) {
-    [button setBackgroundImage:[[UIImage imageWithColor:THEMECOLOR(@"colorBackground8")] imageByApplyingAlpha:0.6f] forState:UIControlStateNormal];
-    button.layer.cornerRadius = 4.0f;
-    button.clipsToBounds = YES;
-  }
+
+    [self.topPortraitCloseButton setBackgroundImage:[[UIImage imageWithColor:THEMECOLOR(@"colorBackground8")] imageByApplyingAlpha:0.6f] forState:UIControlStateNormal];
+    self.topPortraitCloseButton.layer.cornerRadius = 4.0f;
+    self.topPortraitCloseButton.clipsToBounds = YES;
   
   [self.topPortraitCloseButton addTarget:self action:@selector(doneButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
   
