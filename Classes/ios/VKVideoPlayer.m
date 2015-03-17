@@ -1274,7 +1274,6 @@ typedef enum {
     weakSelf.view.bounds = viewBoutnds;
     [weakSelf.view setFrameOriginX:0.0f];
     [weakSelf.view setFrameOriginY:0.0f];
-    [weakSelf.view layoutForOrientation:deviceOrientation];
 
   } completion:^(BOOL finished) {
     if ([self.delegate respondsToSelector:@selector(videoPlayer:didChangeOrientationFrom:)]) {

@@ -179,13 +179,6 @@
       });
     }
   }
-  
-  if ([object isKindOfClass:[UIButton class]]) {
-    UIButton* button = object;
-    if ([button isDescendantOfView:self.topControlOverlay]) {
-      [self layoutTopControls];
-    }
-  }
 }
 
 - (void)setDelegate:(id<VKVideoPlayerViewDelegate>)delegate {
@@ -225,36 +218,6 @@
   self.totalTimeLabel.text = [VKSharedUtility timeStringFromSecondsValue:(int)self.scrubber.maximumValue];
   [self.totalTimeLabel sizeToFit];
   [self.totalTimeLabel setFrameHeight:CGRectGetHeight(self.bottomControlOverlay.frame)];
-  
-  [self layoutSlider];
-}
-
-- (void)layoutSliderForOrientation:(UIInterfaceOrientation)interfaceOrientation {
-  if (UIInterfaceOrientationIsPortrait(interfaceOrientation)) {
-    [self.totalTimeLabel setFrameOriginX:CGRectGetMinX(self.fullscreenButton.frame) - self.totalTimeLabel.frame.size.width];
-  } else {
-    [self.totalTimeLabel setFrameOriginX:CGRectGetMinX(self.captionButton.frame) - self.totalTimeLabel.frame.size.width - PADDING];
-  }
-
-  [self.scrubber setFrameOriginX:self.currentTimeLabel.frame.origin.x + self.currentTimeLabel.frame.size.width + 4];
-  [self.scrubber setFrameWidth:self.totalTimeLabel.frame.origin.x - self.scrubber.frame.origin.x - 4];
-  [self.scrubber setFrameOriginY:CGRectGetHeight(self.bottomControlOverlay.frame)/2 - CGRectGetHeight(self.scrubber.frame)/2];
-}
-
-- (void)layoutSlider {
-  [self layoutSliderForOrientation:self.delegate.visibleInterfaceOrientation];
-}
-
-- (void)layoutTopControls {
-  
-  CGFloat rightMargin = CGRectGetMaxX(self.topControlOverlay.frame);
-  for (UIView* button in self.topControlOverlay.subviews) {
-    if ([button isKindOfClass:[UIButton class]] && button != self.doneButton && !button.hidden) {
-      rightMargin = MIN(CGRectGetMinX(button.frame), rightMargin);
-    }
-  }
-  
-  [self.titleLabel setFrameWidth:rightMargin - CGRectGetMinX(self.titleLabel.frame) - 20];
 }
 
 - (void)setPlayButtonsSelected:(BOOL)selected {
@@ -351,8 +314,6 @@
       control.hidden = hidden;
     }
   }
-  
-  [self layoutTopControls];
 }
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
@@ -404,9 +365,6 @@
       control.hidden = self.isControlsHidden;
     }
   }
-  
-  [self layoutTopControls];
-  [self layoutSliderForOrientation:interfaceOrientation];
 }
 
 - (void)addSubviewForControl:(UIView *)view {

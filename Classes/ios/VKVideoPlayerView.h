@@ -115,7 +115,6 @@
 - (void)setPlayButtonsSelected:(BOOL)selected;
 - (void)setPlayButtonsEnabled:(BOOL)enabled;
 
-- (void)layoutForOrientation:(UIInterfaceOrientation)interfaceOrientation;
 - (void)addSubviewForControl:(UIView *)view;
 - (void)addSubviewForControl:(UIView *)view toView:(UIView*)parentView;
 - (void)addSubviewForControl:(UIView *)view toView:(UIView*)parentView forOrientation:(UIInterfaceOrientationMask)orientation;
