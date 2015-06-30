@@ -227,9 +227,11 @@ typedef enum {
   Reachability* curReachability = notification.object;
   if (curReachability == VKSharedUtility.wifiReach) {
     DDLogVerbose(@"Reachability Changed: %@", [VKSharedUtility.wifiReach isReachableViaWiFi] ? @"Wifi Detected." : @"Cellular Detected.");
-    if ([[self.videoTrack.streamURL scheme] containsString:@"http"]) {
+    NSRange range = [[self.videoTrack.streamURL scheme] rangeOfString:@"http"];
+    if (range.location != NSNotFound){
       [self reloadCurrentVideoTrack];
     }
+
     self.view.videoQualityButton.enabled = YES;
   } else {
     self.view.videoQualityButton.enabled = NO;
