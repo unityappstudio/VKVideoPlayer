@@ -296,23 +296,21 @@
 - (void)setControlsHidden:(BOOL)hidden {
   DDLogVerbose(@"Controls: %@", hidden ? @"hidden" : @"visible");
 
-  if (self.isControlsHidden != hidden) {
-    self.isControlsHidden = hidden;
-    self.controls.hidden = hidden;
+  self.isControlsHidden = hidden;
+  self.controls.hidden = hidden;
 
-    if (UIInterfaceOrientationIsLandscape(self.delegate.visibleInterfaceOrientation)) {
-      for (UIView *control in self.landscapeControls) {
-        control.hidden = hidden;
-      }
-    }
-    if (UIInterfaceOrientationIsPortrait(self.delegate.visibleInterfaceOrientation)) {
-      for (UIView *control in self.portraitControls) {
-        control.hidden = hidden;
-      }
-    }
-    for (UIView *control in self.customControls) {
+  if (UIInterfaceOrientationIsLandscape(self.delegate.visibleInterfaceOrientation)) {
+    for (UIView *control in self.landscapeControls) {
       control.hidden = hidden;
     }
+  }
+  if (UIInterfaceOrientationIsPortrait(self.delegate.visibleInterfaceOrientation)) {
+    for (UIView *control in self.portraitControls) {
+      control.hidden = hidden;
+    }
+  }
+  for (UIView *control in self.customControls) {
+    control.hidden = hidden;
   }
 }
 
