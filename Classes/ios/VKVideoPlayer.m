@@ -448,9 +448,14 @@ typedef enum {
       if (status == AVKeyValueStatusLoaded) {
         self.playerItem = [AVPlayerItem playerItemWithAsset:asset];
         self.avPlayer = [self playerWithPlayerItem:self.playerItem];
+        
+        // Video is loaded, AVPlayer is created
+        if (self.delegate && [self.delegate respondsToSelector:@selector(videoPlayerFinishedToLoadTrack:)]) {
+          [self.delegate videoPlayerFinishedToLoadTrack:self];
+        }
+        
         self.player = (id<VKPlayer>)self.avPlayer;
         [playerLayerView setPlayer:self.avPlayer];
-        
       } else {
         // You should deal with the error appropriately.
         [self handleErrorCode:kVideoPlayerErrorAssetLoadError track:track];
