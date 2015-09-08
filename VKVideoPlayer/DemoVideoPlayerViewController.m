@@ -6,6 +6,7 @@
 #import "DemoVideoPlayerViewController.h"
 #import "VKVideoPlayer.h"
 #import "VKVideoPlayerCaptionSRT.h"
+#import "IAWVideoPlayerView.h"
 
 
 @interface DemoVideoPlayerViewController ()
@@ -17,7 +18,7 @@
 - (void)viewDidLoad {
   [super viewDidLoad];
   
-  self.player = [[VKVideoPlayer alloc] init];
+  self.player = [[VKVideoPlayer alloc] initWithVideoPlayerView:[[IAWVideoPlayerView alloc] init]];
   self.player.delegate = self;
   self.player.view.frame = self.view.bounds;
   self.player.view.playerControlsAutoHideTime = @10;
